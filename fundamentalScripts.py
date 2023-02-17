@@ -33,9 +33,9 @@ def accessing_endpoints_loop(ticker:str):
 
     return raw_data
 
-def dataExtraction(dict):
+def dataExtraction(data):
     
-    company_monthly_data = company_stock_data[0]['Monthly Time Series']
+    company_monthly_data = data[0]['Monthly Time Series']
     
     dateString = list(company_monthly_data.keys())
     
@@ -69,9 +69,9 @@ def percent_Change(data):
         i = i+1
     return percent_Change
 
-def dataTransformation(tuple):
+def dataTransformation(data):
     
-    dateString, stock_Price, stock_Volume = dataExtraction(company_stock_data)
+    dateString, stock_Price, stock_Volume = data
     
     date = [datetime.strptime(date_str,'%Y-%m-%d') for date_str in dateString]
     
@@ -86,7 +86,7 @@ def dataTransformation(tuple):
     
     return dateString,date, stock_Price, stock_Volume, stock_Price_Change, stock_Volume_Change
 
-def stockViz(data):
+def stockViz(data_for_visualization):
     date = data_for_visualization[1]
     stock_Price = data_for_visualization[2]
     stock_Volume_Change = data_for_visualization[5]

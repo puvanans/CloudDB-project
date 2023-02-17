@@ -52,14 +52,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 30,
    "id": "e8767349-b1f5-4991-9628-c79e17176fb5",
    "metadata": {},
    "outputs": [],
    "source": [
-    "def dataExtraction(dict):\n",
+    "def dataExtraction(data):\n",
     "    \n",
-    "    company_monthly_data = company_stock_data[0]['Monthly Time Series']\n",
+    "    company_monthly_data = data[0]['Monthly Time Series']\n",
     "    \n",
     "    dateString = list(company_monthly_data.keys())\n",
     "    \n",
