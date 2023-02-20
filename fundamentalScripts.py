@@ -95,26 +95,32 @@ def stockViz(data_for_visualization):
     priceTracker = px.line(x = date, y = stock_Price, title = "Stock Price over time" )
 
     priceTracker.update_layout(
-        title='Stock Price',
+        title='Stock Price over time',
         yaxis_tickformat='$',
         yaxis_title='Price',
+        xaxis_title='Time',
         xaxis_showgrid=False,   # Set the x-axis grid lines to show
         # yaxis_showgrid=False,   # Set the y-axis grid lines to show
         xaxis_gridcolor='lightgray',  # Set the x-axis grid color
         yaxis_gridcolor='lightgray',  # Set the y-axis grid color
-        plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white
+        plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white\
+     
     )
+    priceTracker.update_xaxes(showspikes = True)
+    priceTracker.update_yaxes(showspikes = True)
     
-    changeTracker = px.scatter( x = date, y = stock_Volume_Change, title = 'Trade over time', size = stock_Volume_Change_abs)
+    priceTracker.update_traces(hovertemplate='Time: %{x}<br>Price: $%{y}')
 
-    changeTracker.update_layout(
-        yaxis_tickformat = '.2%',
-        yaxis_title = 'Percent Change',
-        xaxis_showgrid=False,   # Set the x-axis grid lines to show
-        # yaxis_showgrid=False,   # Set the y-axis grid lines to show
-        xaxis_gridcolor='lightgray',  # Set the x-axis grid color
-        yaxis_gridcolor='lightgray',  # Set the y-axis grid color
-        plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white
-    )
-    priceTracker.show()
-    changeTracker.show()
+    return priceTracker
+#     changeTracker = px.scatter( x = date, y = stock_Volume_Change, title = 'Trade over time', size = stock_Volume_Change_abs)
+
+#     changeTracker.update_layout(
+#         yaxis_tickformat = '.2%',
+#         yaxis_title = 'Percent Change',
+#         xaxis_showgrid=False,   # Set the x-axis grid lines to show
+#         # yaxis_showgrid=False,   # Set the y-axis grid lines to show
+#         xaxis_gridcolor='lightgray',  # Set the x-axis grid color
+#         yaxis_gridcolor='lightgray',  # Set the y-axis grid color
+#         plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white
+#     )
+   
