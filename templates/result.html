@@ -2,9 +2,31 @@
 <html>
   <head>
     <title>Stock Visualization</title>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <style>
+    
+    body {
+    background-color: #f1f1f1;
+    }
+    h1 {
+      font-size: 2em;
+      text-align: center;
+      margin-top: 1em;
+    }
+    
+    /* You may need to adjust the width and height of the plot container based on your actual plot size */
+    div.plot-container {
+      width: 80%;
+      height: 600px;
+      margin: 0 auto;
+    }
+    
+    </style>
   </head>
+
   <body>
     <h1>Stock Visualization</h1>
     {{ price_plot|safe }}
+    {{ volume_plot|safe }}
   </body>
 </html>

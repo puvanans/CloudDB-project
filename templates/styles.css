@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Enter a Ticker Symbol</title>
-    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
-  </head>
-  <style>
-    body {
+
+/* Style for home.html */
+body {
     background-color: #f1f1f1;
   }
   
@@ -41,14 +36,17 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  </style>
-  <body>
-    <h1>Enter a Ticker Symbol</h1>
-    <form method="POST" action="/">
-      <label for="ticker">Ticker symbol:</label>
-      <input type="text" id="ticker" name="ticker">
-      <input type="submit" value="Submit">
-    </form>
-  </body>
-</html>
-
+  
+  /* Style for result.html */
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 1em;
+  }
+  
+  /* You may need to adjust the width and height of the plot container based on your actual plot size */
+  div.plot-container {
+    width: 800px;
+    height: 600px;
+    margin: 0 auto;
+  }

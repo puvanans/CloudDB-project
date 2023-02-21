@@ -120,5 +120,28 @@ def stockViz(data_for_visualization):
         
     )
     priceTracker.update_traces(hovertemplate='Time: %{x}<br>Price: $%{y}')
+    
+    volumeTracker = px.scatter(x=stock_Price, y=stock_Volume_Change_abs,  size = stock_Volume_Change_abs ,title=f"{company_symbol} Stock Volume Change vs. Price")
+    volumeTracker.update_layout(
+        xaxis_title='Price',
+        yaxis_title='Volume Change (absolute)',
+        xaxis_showgrid=False,   # Set the x-axis grid lines to show
+        yaxis_showgrid=False,   # Set the y-axis grid lines to show
+        xaxis_gridcolor='lightgray',  # Set the x-axis grid color
+        yaxis_gridcolor='lightgray',  # Set the y-axis grid color
+        plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white
+        hovermode='x unified',
+        xaxis={
+                'showspikes': True,
+                'spikemode': 'toaxis',
+                'title': 'Price'
+            },
+        yaxis={
+                'showspikes': True,
+                'spikemode': 'toaxis',
+                'title': 'Volume Change (absolute)'
+            }
+    )
+    volumeTracker.update_traces(hovertemplate='Price: $%{x}<br>Volume Change: %{y}')
 
-    return priceTracker
+    return priceTracker,volumeTracker
