@@ -14,7 +14,7 @@ def accessing_endpoints_loop(ticker:str):
         # ,{'name':'Income_statement','url':f'https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol={ticker}&apikey=RQRA0RQ6ZZAVMA26'},
     ]
     
-    raw_data = []
+    raw_data = None
     
     for endpoint in endpoints:
         name = endpoint['name']
@@ -23,7 +23,7 @@ def accessing_endpoints_loop(ticker:str):
     try:
         response = requests.get(url)
         response.raise_for_status()
-        raw_data.append(response.json())
+        raw_data= response.json()
     
     except response.exceptions.HTTPError as err:
       return f'HTTP error with {name} endpoint :{err}'
@@ -35,7 +35,8 @@ def accessing_endpoints_loop(ticker:str):
 
 def dataExtraction(data):
     
-    company_monthly_data = data[0]['Monthly Time Series']
+    company_symbol = data ['Meta Data']['2. Symbol']
+    company_monthly_data = data['Monthly Time Series']
     
     dateString = list(company_monthly_data.keys())
     
@@ -55,8 +56,8 @@ def dataExtraction(data):
         
         monthly_trading_volume.append(stock_Volume)
         
-    return dateString,monthly_closing_price,monthly_trading_volume
-
+    return dateString,monthly_closing_price,monthly_trading_volume, company_symbol
+   
 def percent_Change(data):
     i = 0
     percent_Change = []
@@ -71,7 +72,7 @@ def percent_Change(data):
 
 def dataTransformation(data):
     
-    dateString, stock_Price, stock_Volume = data
+    dateString, stock_Price, stock_Volume, company_symbol = data
     
     date = [datetime.strptime(date_str,'%Y-%m-%d') for date_str in dateString]
     
@@ -84,18 +85,19 @@ def dataTransformation(data):
     stock_Volume_Change.insert(0,0)
     
     
-    return dateString,date, stock_Price, stock_Volume, stock_Price_Change, stock_Volume_Change
+    return dateString,date, stock_Price, stock_Volume, stock_Price_Change, stock_Volume_Change, company_symbol
+
 
 def stockViz(data_for_visualization):
     date = data_for_visualization[1]
     stock_Price = data_for_visualization[2]
     stock_Volume_Change = data_for_visualization[5]
     stock_Volume_Change_abs = [abs(change) for change in stock_Volume_Change]
+    company_symbol = data_for_visualization[6]
     
-    priceTracker = px.line(x = date, y = stock_Price, title = "Stock Price over time" )
+    priceTracker = px.line(x = date, y = stock_Price, title = f"{company_symbol} Stock Price over time" )
 
     priceTracker.update_layout(
-        title='Stock Price over time',
         yaxis_tickformat='$',
         yaxis_title='Price',
         xaxis_title='Time',
@@ -103,24 +105,20 @@ def stockViz(data_for_visualization):
         # yaxis_showgrid=False,   # Set the y-axis grid lines to show
         xaxis_gridcolor='lightgray',  # Set the x-axis grid color
         yaxis_gridcolor='lightgray',  # Set the y-axis grid color
-        plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white\
-     
+        plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white
+        hovermode='x unified',
+        xaxis={
+        'showspikes': True,
+        'spikemode': 'toaxis',
+        'title': 'Time'
+        },
+        yaxis={
+        'showspikes': True,
+        'spikemode': 'toaxis',
+        'title': 'Price'
+        }
+        
     )
-    priceTracker.update_xaxes(showspikes = True)
-    priceTracker.update_yaxes(showspikes = True)
-    
     priceTracker.update_traces(hovertemplate='Time: %{x}<br>Price: $%{y}')
 
     return priceTracker
-#     changeTracker = px.scatter( x = date, y = stock_Volume_Change, title = 'Trade over time', size = stock_Volume_Change_abs)
-
-#     changeTracker.update_layout(
-#         yaxis_tickformat = '.2%',
-#         yaxis_title = 'Percent Change',
-#         xaxis_showgrid=False,   # Set the x-axis grid lines to show
-#         # yaxis_showgrid=False,   # Set the y-axis grid lines to show
-#         xaxis_gridcolor='lightgray',  # Set the x-axis grid color
-#         yaxis_gridcolor='lightgray',  # Set the y-axis grid color
-#         plot_bgcolor='rgb(255, 255, 255)',  # Set the background color to white
-#     )
-   
